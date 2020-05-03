@@ -1,0 +1,25 @@
+service: serverless-nestjs-worker
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  region: ap-northeast-1
+  profile: my-app-user
+  memorySize: 128
+  timeout: 10
+
+plugins:
+  - serverless-layers
+custom:
+  serverless-layers:
+    layersDeploymentBucket: ocknamo-nestjs-lambda-layers
+
+package:
+  individually: true
+  include:
+    - dist/**
+  exclude:
+    - '**'
+functions:
+  handler:
+    handler: dist/main.handler
